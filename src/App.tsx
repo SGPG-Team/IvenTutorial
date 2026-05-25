@@ -2,12 +2,8 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import wikiMenu from './WikiPages';
 import './App.css';
-
-const wikiMenu = [
-  { id: 'stishok', title: '📜 Великий стишок', path: '/wiki/stishok.md' },
-  { id: 'polaris', title: '🎶 Rust In Peace...Polaris', path: '/wiki/polaris.md' },
-];
 
 const serverIP = "play.iven.qzz.io";
 
