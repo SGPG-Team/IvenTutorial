@@ -1,38 +1,41 @@
-import { useState } from 'react';
-import './App.css'
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import './App.css';
 
-function App() {
-  const serverIP = "play.iven.qzz.io";
+const wikiMenu = [
+  { id: 'stishok', title: '📜 Великий стишок', path: '/wiki/stishok.md' },
+  { id: 'polaris', title: '🎶 Rust In Peace...Polaris', path: '/wiki/polaris.md' },
+];
 
+const serverIP = "play.iven.qzz.io";
+
+function HomePage() {
   const [showToast, setShowToast] = useState(false);
+
+  const handleCopyIP = () => {
+    navigator.clipboard.writeText(serverIP);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   return (
     <div className="home-container">
       <div className="background-overlay"></div>
       
       <main className="content">
-        <h1 className="title">
-          {"ИВЕНЬ"}
-        </h1>
-        
+        <h1 className="title">{"ИВЕНЬ"}</h1>
         <p className="subtitle">
           Добро пожаловать на официальную вики по ивню. Здесь собраны все руководства по тактике, 
-          управлению и правилам проведения ивней. 
-          Изучи материалы перед игрой.
+          управлению и правилам проведения ивней. Изучи материалы перед игрой.
         </p>
 
         <div className="cta-group">
-          <button className="btn btn-primary" onClick={() => alert('Тут будет переход к туториалу!')}>
+          <Link to="/wiki/rules" className="btn btn-primary">
             Открыть вики
-          </button>
-          <button className="btn btn-secondary" onClick={() => {
-            navigator.clipboard.writeText(serverIP);
-            setShowToast(true);
-
-            setTimeout(() => {
-              setShowToast(false);
-            }, 3000);
-          }}>
+          </Link>
+          <button className="btn btn-secondary" onClick={handleCopyIP}>
             IP: {serverIP}
           </button>
         </div>
@@ -44,11 +47,94 @@ function App() {
           <h4>IP-адрес скопирован!</h4>
         </div>
       </div>
-
-      <footer className="footer">
-      </footer>
     </div>
   );
 }
 
-export default App
+function MarkdownRenderer({ path }: { path: string }) {
+  const [markdownContent, setMarkdownContent] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch(path)
+      .then((res) => {
+        if (!res.ok) throw new Error('Файл не найден');
+        return res.text();
+      })
+      .then((text) => {
+        if (isMounted) {
+          setMarkdownContent(text);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (isMounted) {
+          setMarkdownContent(`### ❌ Ошибка загрузки\nНе удалось загрузить файл статьи: ${err.message}`);
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [path]);
+
+  if (isLoading) {
+    return <p className="wiki-loading">Загрузка данных...</p>;
+  }
+
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownContent}</ReactMarkdown>;
+}
+
+function WikiPage() {
+  const { articleId } = useParams<{ articleId: string }>();
+  const navigate = useNavigate();
+
+  const currentTab = wikiMenu.find(item => item.id === articleId) || wikiMenu[0];
+
+  return (
+    <div className="wiki-container">
+      <aside className="wiki-sidebar">
+        <div className="sidebar-header">
+          <span className="sidebar-logo">Вики</span>
+          <button className="btn-back" onClick={() => navigate('/')}>← На главную</button>
+        </div>
+        
+        <nav className="sidebar-menu">
+          {wikiMenu.map((item) => (
+            <Link
+              key={item.id}
+              to={`/wiki/${item.id}`}
+              className={`menu-item ${currentTab.id === item.id ? 'active' : ''}`}
+              style={{ textDecoration: 'none', display: 'block' }}
+            >
+              {item.title}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+
+      <main className="wiki-content">
+        <div className="markdown-body">
+          <MarkdownRenderer key={currentTab.id} path={currentTab.path} />
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/wiki/:articleId" element={<WikiPage />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
