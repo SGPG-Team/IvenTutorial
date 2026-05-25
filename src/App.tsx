@@ -92,13 +92,33 @@ function WikiPage() {
   const { articleId } = useParams<{ articleId: string }>();
   const navigate = useNavigate();
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
   const currentTab = wikiMenu.find(item => item.id === articleId) || wikiMenu[0];
+
+  const handleMenuClick = () => {
+    setIsSidebarOpen(false);
+  };
 
   return (
     <div className="wiki-container">
+      <button className="mobile-burger-btn" onClick={() => setIsSidebarOpen(true)}>
+        ☰
+      </button>
+
+      <div 
+        className={`wiki-overlay ${isSidebarOpen ? 'active' : ''}`} 
+        onClick={() => setIsSidebarOpen(false)}
+      ></div>
+
       <aside className="wiki-sidebar">
         <div className="sidebar-header">
-          <span className="sidebar-logo">Вики</span>
+          <div className="sidebar-title-row">
+            <span className="sidebar-logo">Вики</span>
+            <button className="mobile-close-btn" onClick={() => setIsSidebarOpen(false)}>
+              ✕
+            </button>
+          </div>
           <button className="btn-back" onClick={() => navigate('/')}>← На главную</button>
         </div>
         
@@ -109,6 +129,7 @@ function WikiPage() {
               to={`/wiki/${item.id}`}
               className={`menu-item ${currentTab.id === item.id ? 'active' : ''}`}
               style={{ textDecoration: 'none', display: 'block' }}
+              onClick={handleMenuClick}
             >
               {item.title}
             </Link>
