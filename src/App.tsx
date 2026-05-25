@@ -32,7 +32,7 @@ function HomePage() {
         </p>
 
         <div className="cta-group">
-          <Link to="/wiki/rules" className="btn btn-primary">
+          <Link to="/wiki/stishok" className="btn btn-primary">
             Открыть вики
           </Link>
           <button className="btn btn-secondary" onClick={handleCopyIP}>
