@@ -138,11 +138,11 @@ body {
 .wiki-content { flex-grow: 1; padding: 40px 40px 40px 24px; overflow-y: auto; }
 .wiki-loading { color: var(--text-muted); font-style: italic; font-size: 1.1rem; margin-top: 40px; }
 
-.markdown-body { width: 100%; max-width: 1200px; text-align: left; line-height: 1.6; overflow-wrap: break-word; }
+.markdown-body { width: 100%; max-width: 1200px; text-align: left; line-height: 1.6; overflow-wrap: break-word; word-wrap: break-word; }
 .markdown-body h1 { font-size: 2.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin: 0 0 24px 0; }
 .markdown-body h2 { font-size: 1.5rem; margin: 32px 0 16px 0; }
 .markdown-body p, .markdown-body li { color: #c9d1d9; }
-.markdown-body p { margin: 0 0 16px 0; white-space: pre-wrap; }
+.markdown-body p { margin: 0 0 16px 0; white-space: pre-wrap; word-break: break-word; }
 .markdown-body ul { padding-left: 20px; margin-bottom: 24px; }
 .markdown-body li { margin-bottom: 8px; }
 
@@ -162,6 +162,9 @@ body {
   font-family: monospace;
   font-size: 0.9rem;
   display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  vertical-align: middle;
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -170,7 +173,13 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); border-color: var(--accent-hover); }
 
 @media (max-width: 768px) {
-  .wiki-container { position: relative; overflow: hidden; }
+  html, body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
+
+  .wiki-container { position: relative; height: auto; min-height: 100vh; overflow: visible; }
   
   .mobile-burger-btn {
     display: block;
@@ -209,7 +218,7 @@ body {
     transition: opacity 0.3s ease;
   }
   .wiki-overlay.active { opacity: 1; pointer-events: auto; }
-  .wiki-content { padding: 80px 16px 24px 16px; }
+  .wiki-content { padding: 80px 16px 40px 16px; width: 100%; overflow-y: visible; }
 }
 
 @media (min-width: 769px) {
