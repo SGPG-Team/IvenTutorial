@@ -20,7 +20,7 @@ function App() {
           <button className="btn btn-primary" onClick={() => alert('Тут будет переход к туториалу!')}>
             Открыть туториал
           </button>
-          <button className="btn btn-secondary" onClick={() => alert('IP сервера скопирован!')}>
+          <button className="btn btn-secondary" onClick={() => alert('IP сервера скопирован! (это пиздёж, не скопирован)')}>
             IP: play.iven.qzz.io
           </button>
         </div>
