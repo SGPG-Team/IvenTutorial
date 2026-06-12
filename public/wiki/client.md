@@ -1,6 +1,6 @@
 # Клиент
 Версия - **Fabric 1.21.11**
-Сборка **(ТРЕБУЕТСЯ)** - <ссылка>
+Сборка **(ТРЕБУЕТСЯ)** - https://drive.google.com/file/d/1VCuWGrOPHOIyklB3PcoBzpObZ5acDZVP/view?usp=sharing
 Ресурспак - загружается **автоматически**
 **Можно играть с пиратки**
 
