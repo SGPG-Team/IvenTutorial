@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import wikiMenu from './WikiPages';
 import './App.css';
 
-const serverIP = "play.iven.qzz.io";
+const serverIP = "iven.vanilla.men";
 
 function HomePage() {
   const [showToast, setShowToast] = useState(false);
