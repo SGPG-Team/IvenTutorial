@@ -81,7 +81,27 @@ function MarkdownRenderer({ path }: { path: string }) {
     return <p className="wiki-loading">Загрузка данных...</p>;
   }
 
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownContent}</ReactMarkdown>;
+return (
+    <ReactMarkdown 
+      remarkPlugins={[remarkGfm]}
+      components={{
+        img: ({ ...props }) => (
+          <img 
+            {...props} 
+            style={{ 
+              maxWidth: '500px',
+              width: '100%', 
+              height: 'auto', 
+              display: 'block', 
+              margin: '20px 0'
+            }} 
+          />
+        )
+      }}
+    >
+      {markdownContent}
+    </ReactMarkdown>
+  );
 }
 
 function WikiPage() {
