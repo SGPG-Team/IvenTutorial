@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import wikiMenu from './WikiPages';
 import './App.css';
 
-const serverIP = "iven.vanilla.men";
+const serverIP = "SGPG.exaroton.me";
 
 function HomePage() {
   const [showToast, setShowToast] = useState(false);
