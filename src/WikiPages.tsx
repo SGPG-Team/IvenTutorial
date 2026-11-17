@@ -3,6 +3,7 @@ const wikiMenu = [
   { id: 'before_the_game', title: '📚 Перед игрой', path: '/wiki/before_the_game.md' },
   { id: 'gameplay', title: '🎮 Игра', path: '/wiki/game.md' },
   { id: "mechanics", title: "⚙️ Механики", path: "/wiki/mechanics.md" },
+  { id: "gamemodes", title: "🕹️ Режимы игры", path: "/wiki/gamemodes.md" },
 ];
 
 export default wikiMenu;
